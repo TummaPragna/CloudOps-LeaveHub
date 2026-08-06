@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.cloudops.authservice.dto.ApplyLeaveRequest;
 import com.cloudops.authservice.entity.LeaveRequest;
+import com.cloudops.authservice.dto.DashboardStats;
+
 
 public interface LeaveService {
 
     LeaveRequest applyLeave(ApplyLeaveRequest request);
 
     List<LeaveRequest> getMyLeaves(String email);
+    DashboardStats getDashboardStats(String email);
 
 }

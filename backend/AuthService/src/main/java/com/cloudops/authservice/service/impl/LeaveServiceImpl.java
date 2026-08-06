@@ -13,6 +13,7 @@ import com.cloudops.authservice.entity.LeaveStatus;
 import com.cloudops.authservice.repository.AppUserRepository;
 import com.cloudops.authservice.repository.LeaveRepository;
 import com.cloudops.authservice.service.LeaveService;
+import com.cloudops.authservice.dto.DashboardStats;
 
 @Service
 public class LeaveServiceImpl implements LeaveService {
@@ -50,4 +51,27 @@ public class LeaveServiceImpl implements LeaveService {
 
         return leaveRepository.findByEmployee(employee);
     }
+    @Override
+    public DashboardStats getDashboardStats(String email) {
+
+        AppUser employee = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        long total = leaveRepository.countByEmployee(employee);
+
+        long pending = leaveRepository.countByEmployeeAndStatus(employee, LeaveStatus.PENDING);
+
+        long approved = leaveRepository.countByEmployeeAndStatus(employee, LeaveStatus.APPROVED);
+
+        long rejected = leaveRepository.countByEmployeeAndStatus(employee, LeaveStatus.REJECTED);
+
+        return new DashboardStats(
+                total,
+                pending,
+                approved,
+                rejected
+        );
+
+    }
+
 }

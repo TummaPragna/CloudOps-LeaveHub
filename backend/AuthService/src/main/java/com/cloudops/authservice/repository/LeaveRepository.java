@@ -13,6 +13,11 @@ import com.cloudops.authservice.entity.LeaveStatus;
 public interface LeaveRepository extends JpaRepository<LeaveRequest, Long> {
 
     List<LeaveRequest> findByEmployee(AppUser employee);
+
     List<LeaveRequest> findByStatus(LeaveStatus status);
+
+    long countByEmployee(AppUser employee);
+
+    long countByEmployeeAndStatus(AppUser employee, LeaveStatus status);
 
 }
