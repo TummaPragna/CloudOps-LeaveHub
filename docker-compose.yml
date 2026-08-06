@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+
+  backend:
+    image: tummapragna/leavehub-backend:latest
+    container_name: leavehub-backend
+    ports:
+      - "9091:9091"
+    restart: always
+
+  frontend:
+    image: tummapragna/leavehub-frontend:latest
+    container_name: leavehub-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: always
