@@ -32,34 +32,17 @@ pipeline {
             }
         }
 
-        stage('Build Frontend Docker Image') {
-            steps {
-                dir('frontend') {
-                    bat 'docker build -t %FRONTEND_IMAGE% .'
-                }
-            }
-        }
-
-        stage('Push Backend Image') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
-                    bat 'docker push %BACKEND_IMAGE%'
-                }
-            }
-        }
-
         stage('Push Frontend Image') {
-            steps {
-                bat 'docker push %FRONTEND_IMAGE%'
-            }
-        }
+    steps {
+        bat 'docker push tummapragna/leavehub-frontend:latest'
     }
+}
+
+       stage('Push Backend Image') {
+    steps {
+        bat 'docker push tummapragna/leavehub-backend:latest'
+    }
+}
 
     post {
 
