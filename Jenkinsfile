@@ -32,17 +32,27 @@ pipeline {
             }
         }
 
-        stage('Push Frontend Image') {
-    steps {
-        bat 'docker push tummapragna/leavehub-frontend:latest'
-    }
-}
+        stage('Build Frontend Docker Image') {
+            steps {
+                dir('frontend') {
+                    bat 'docker build -t %FRONTEND_IMAGE% .'
+                }
+            }
+        }
 
-       stage('Push Backend Image') {
-    steps {
-        bat 'docker push tummapragna/leavehub-backend:latest'
+        stage('Push Backend Image') {
+            steps {
+                bat 'docker push tummapragna/leavehub-backend:latest'
+            }
+        }
+
+        stage('Push Frontend Image') {
+            steps {
+                bat 'docker push tummapragna/leavehub-frontend:latest'
+            }
+        }
+
     }
-}
 
     post {
 
@@ -53,5 +63,7 @@ pipeline {
         failure {
             echo 'Pipeline Failed!'
         }
+
     }
+
 }
